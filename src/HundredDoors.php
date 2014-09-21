@@ -20,8 +20,25 @@ class HundredDoors
 	 */
 	public function getDoors($doorCount)
 	{
-		$this->doors = array_fill(0, $doorCount, true);
+		$this->doors = array_fill(0, $doorCount, false);
+
+		$this->toggleDoors($doorCount);
 
 		return $this->doors;
+	}
+
+	/**
+	 * Toggles the doors.
+	 *
+	 * @param int $doorCount   The doors' count.
+	 *
+	 * @return void
+	 */
+	protected function toggleDoors($doorCount)
+	{
+		for ($i = 0; $i < $doorCount; $i++)
+		{
+			$this->doors[$i] = !$this->doors[$i];
+		}
 	}
 }

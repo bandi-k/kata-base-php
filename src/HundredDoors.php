@@ -37,9 +37,11 @@ class HundredDoors
 	 */
 	protected function toggleDoors($doorCount)
 	{
-		$currentRide = 1;
+		$currentRide   = 1;
+		$halfDoorCount = floor($doorCount / 2);
 
-		for ($i = 0; $i < $doorCount; ++$i)
+		// We need this on the half of the doors.
+		for ($i = 0; $i < $halfDoorCount; ++$i)
 		{
 			foreach ($this->doors as $doorNumber => $door)
 			{
@@ -49,6 +51,14 @@ class HundredDoors
 			}
 
 			$currentRide++;
+		}
+
+		// We need to toggle the doors over the halfdoors.
+		foreach ($this->doors as $doorNumber => $door)
+		{
+			if (($doorNumber+1) > $halfDoorCount ) {
+				$this->doors[$doorNumber] = !$this->doors[$doorNumber];
+			}
 		}
 	}
 }

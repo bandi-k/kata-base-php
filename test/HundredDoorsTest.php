@@ -14,8 +14,16 @@ class HundredDoorsTest extends \PHPUnit_Framework_TestCase
 	{
 		$hundredDoors = new HundredDoors();
 
-		$this->assertEquals([true], $hundredDoors->getDoors(1));
+		$this->assertEquals(array(true), $hundredDoors->getDoors(1));
 
 		$this->assertEquals(array(true, false), $hundredDoors->getDoors(2));
+
+		$this->assertEquals(array(true, false, false), $hundredDoors->getDoors(3));
+
+		$this->assertEquals(array(true, false, false, true), $hundredDoors->getDoors(4));
+
+		$this->assertEquals(array(true, false, false, true, false), $hundredDoors->getDoors(5));
+
+		$this->assertEquals(array(true, false, false, true, false, false), $hundredDoors->getDoors(6));
 	}
 }

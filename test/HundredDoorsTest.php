@@ -33,4 +33,5 @@ class HundredDoorsTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array(true, false, false, true, false, false, false, false, true), $hundredDoors->getDoors(9));
 	}
 
+
 }

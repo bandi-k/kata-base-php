@@ -37,9 +37,9 @@ class PrimeFactorTest extends \PHPUnit_Framework_TestCase
 	{
 		$primeFactor = new PrimeFactor();
 
-		$this->assertTrue($primeFactor->isEvenNumber(6));
-		$this->assertFalse($primeFactor->isEvenNumber(11));
-		$this->assertTrue($primeFactor->isEvenNumber(2000006));
-		$this->assertFalse($primeFactor->isEvenNumber(789789711));
+		$this->assertFalse($primeFactor->isOddNumber(6));
+		$this->assertTrue($primeFactor->isOddNumber(11));
+		$this->assertFalse($primeFactor->isOddNumber(2000006));
+		$this->assertTrue($primeFactor->isOddNumber(789789711));
 	}
 }

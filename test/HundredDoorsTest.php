@@ -41,13 +41,13 @@ class HundredDoorsTest extends \PHPUnit_Framework_TestCase
 
 		$actuallyHundredDoors = $hundredDoors->getDoors(100);
 
-		$door100 = !$primeFactor->isEvenNumber($primeFactor->getCountOfDivisors(100));
+		$door100 = $primeFactor->isOddNumber($primeFactor->getCountOfDivisors(100));
 		$this->assertEquals($actuallyHundredDoors[99], $door100);
 
-		$door98 = !$primeFactor->isEvenNumber($primeFactor->getCountOfDivisors(98));
+		$door98 = $primeFactor->isOddNumber($primeFactor->getCountOfDivisors(98));
 		$this->assertEquals($actuallyHundredDoors[97], $door98);
 
-		$door57 = !$primeFactor->isEvenNumber($primeFactor->getCountOfDivisors(57));
+		$door57 = $primeFactor->isOddNumber($primeFactor->getCountOfDivisors(57));
 		$this->assertEquals($actuallyHundredDoors[56], $door57);
 	}
 }

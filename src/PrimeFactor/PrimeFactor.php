@@ -61,10 +61,10 @@ class PrimeFactor
 	 *
 	 * @param int $number   The number.
 	 *
-	 * @return bool   TRUE, if is even, FALSE if is odd.
+	 * @return bool   TRUE, if is odd, FALSE if is false.
 	 */
-	public function isEvenNumber($number)
+	public function isOddNumber($number)
 	{
-		return ($number % 2 === 0);
+		return ($number % 2 !== 0);
 	}
 }

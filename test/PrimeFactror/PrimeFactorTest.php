@@ -32,4 +32,14 @@ class PrimeFactorTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(6, $primeFactor->getCountOfDivisors(12));
 		$this->assertEquals(4, $primeFactor->getCountOfDivisors(15));
 	}
+
+	public function testIsEvenNumber()
+	{
+		$primeFactor = new PrimeFactor();
+
+		$this->assertTrue($primeFactor->isEvenNumber(6));
+		$this->assertFalse($primeFactor->isEvenNumber(11));
+		$this->assertTrue($primeFactor->isEvenNumber(2000006));
+		$this->assertFalse($primeFactor->isEvenNumber(789789711));
+	}
 }

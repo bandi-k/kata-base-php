@@ -55,4 +55,21 @@ class PrimeFactor
 
 		return $divisors;
 	}
+
+	/**
+	 * Decides whether the given number is even or odd.
+	 *
+	 * @param int $number   The number.
+	 *
+	 * @return bool   TRUE, if is even, FALSE if is odd.
+	 */
+	public function isEvenNumber($number)
+	{
+		if ($number % 2 === 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }

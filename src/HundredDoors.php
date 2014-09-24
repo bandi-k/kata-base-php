@@ -43,7 +43,8 @@ class HundredDoors
 		{
 			foreach ($this->doors as $doorNumber => $door)
 			{
-				if (($doorNumber+1) % $i === 0) {
+				if (($doorNumber+1) % $i === 0)
+				{
 					$this->doors[$doorNumber] = !$this->doors[$doorNumber];
 				}
 			}
@@ -52,7 +53,8 @@ class HundredDoors
 		// We need to toggle the doors over the halfdoors.
 		foreach ($this->doors as $doorNumber => $door)
 		{
-			if (($doorNumber+1) > $halfDoorCount ) {
+			if (($doorNumber+1) > $halfDoorCount )
+			{
 				$this->doors[$doorNumber] = !$this->doors[$doorNumber];
 			}
 		}

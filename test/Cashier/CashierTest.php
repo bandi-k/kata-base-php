@@ -20,6 +20,9 @@ class CashierTest extends \PHPUnit_Framework_TestCase
 		$cashier->addProduct(new Starship());
 		$cashier->addProduct(new Light());
 		$this->assertEquals(1046.99, $cashier->getTotalPrice());
+
+		$cashier->addProducts('light', 5);
+		$this->assertEquals(1121.99, $cashier->getTotalPrice());
 	}
 
 	public function testProducts()

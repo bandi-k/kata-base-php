@@ -7,6 +7,19 @@ namespace Kata\Cashier;
 
 class Cashier
 {
+	/** @var array   The products. */
+	protected $basket = array();
+
+	/**
+	 * Adds a product to the basket.
+	 *
+	 * @param ProductAbstract $product   The product.
+	 */
+	public function addProduct(ProductAbstract $product)
+	{
+		$this->basket[] = $product;
+	}
+
 	/**
 	 * Returns the total price of the basket.
 	 *
@@ -14,6 +27,14 @@ class Cashier
 	 */
 	public function getTotalPrice()
 	{
-		return 1;
+		$totalPrice = 0;
+
+		/** @var ProductAbstract $product */
+		foreach ($this->basket as $product)
+		{
+			$totalPrice += $product->getPrice();
+		}
+
+		return $totalPrice;
 	}
 }

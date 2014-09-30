@@ -4,6 +4,8 @@ namespace Kata\Test\Cashier;
 
 use Kata\Cashier\Cashier;
 use Kata\Cashier\Apple;
+use Kata\Cashier\Light;
+use Kata\Cashier\Starship;
 
 
 class CashierTest extends \PHPUnit_Framework_TestCase
@@ -12,7 +14,12 @@ class CashierTest extends \PHPUnit_Framework_TestCase
 	{
 		$cashier = new Cashier();
 
-		$this->assertEquals(1, $cashier->getTotalPrice());
+		$cashier->addProduct(new Apple());
+		$this->assertEquals(32, $cashier->getTotalPrice());
+
+		$cashier->addProduct(new Starship());
+		$cashier->addProduct(new Light());
+		$this->assertEquals(1046.99, $cashier->getTotalPrice());
 	}
 
 	public function testProducts()

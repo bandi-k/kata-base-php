@@ -13,9 +13,9 @@ class Cashier
 	/**
 	 * Adds a product to the basket.
 	 *
-	 * @param ProductAbstract $product   The product.
+	 * @param object $product   The product.
 	 */
-	public function addProduct(ProductAbstract $product)
+	public function addProduct($product)
 	{
 		$this->basket[] = $product;
 	}

@@ -41,4 +41,17 @@ class CashierTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(32, $apple->getPrice());
 		$this->assertEquals('kg', $apple->getUnit());
 	}
+
+	public function testCashierWithMock()
+	{
+		$appleMock = $this->getMock('Apple');
+
+		$appleMock->method('getPrice')->willReturn(32);
+
+		$cashier = new Cashier();
+
+		$cashier->addProduct($appleMock);
+
+		$this->assertEquals(32, $cashier->getTotalPrice());
+	}
 }

@@ -10,6 +10,27 @@ use Kata\Cashier\Starship;
 
 class CashierTest extends \PHPUnit_Framework_TestCase
 {
+
+	public function testProducts()
+	{
+		$apple = new Apple();
+
+		$this->assertInstanceOf('Kata\Cashier\ProductAbstract', $apple);
+		$this->assertInstanceOf('Kata\Cashier\Apple', $apple);
+
+		return $apple;
+	}
+
+	/**
+	 * @depends testProducts
+	 */
+	public function testApple(Apple $apple)
+	{
+		$this->assertEquals('apple', $apple->getName());
+		$this->assertEquals(32, $apple->getPrice());
+		$this->assertEquals('kg', $apple->getUnit());
+	}
+
 	public function testCashier()
 	{
 		$cashier = new Cashier();
@@ -29,23 +50,6 @@ class CashierTest extends \PHPUnit_Framework_TestCase
 
 		$cashier->addProducts(Starship::PRODUCT_NAME_STARSHIP, 1);
 		$this->assertEquals(2221.98, $cashier->getTotalPrice());
-	}
-
-	public function testProducts()
-	{
-		$apple = new Apple();
-
-		$this->assertInstanceOf('Kata\Cashier\ProductAbstract', $apple);
-		$this->assertInstanceOf('Kata\Cashier\Apple', $apple);
-	}
-
-	public function testApple()
-	{
-		$apple = new Apple();
-
-		$this->assertEquals('apple', $apple->getName());
-		$this->assertEquals(32, $apple->getPrice());
-		$this->assertEquals('kg', $apple->getUnit());
 	}
 
 	public function testCashierWithMock()

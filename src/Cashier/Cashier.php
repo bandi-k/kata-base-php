@@ -46,7 +46,8 @@ class Cashier
 	 */
 	public function addProducts($productName, $count = 1)
 	{
-		for ($i = 1; $i <= $count; $i++) {
+		for ($i = 1; $i <= $count; $i++)
+		{
 			$this->basket[] = $this->productFactory($productName);
 		}
 	}
@@ -57,21 +58,23 @@ class Cashier
 	 * @param string $productName   The name of the product.
 	 *
 	 * @return ProductAbstract   The product.
+	 * @throws \InvalidArgumentException
 	 */
 	protected function productFactory($productName)
 	{
-		switch ($productName) {
-			case 'apple':
+		switch ($productName)
+		{
+			case Apple::PRODUCT_NAME_APPLE:
 				return new Apple();
 				break;
-			case 'light':
+			case Light::PRODUCT_NAME_LIGHT:
 				return new Light();
 				break;
-			case 'starship':
+			case Starship::PRODUCT_NAME_STARSHIP:
 				return new Starship();
 				break;
 			default:
-				trigger_error('Product does not exist!', E_USER_ERROR);
+				throw new \InvalidArgumentException('Product does not exist!');
 				break;
 		}
 	}

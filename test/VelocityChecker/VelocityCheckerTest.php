@@ -3,40 +3,41 @@
 namespace Kata\Test\VelocityChecker;
 
 use Kata\VelocityChecker\AttemptDo;
-use Kata\VelocityChecker\VelocityChecker;
+use Kata\VelocityChecker\CaptchaCheckerByIp;
+use Kata\VelocityChecker\CaptchaCheckerByIpRange;
 
 class VelocityCheckerTest extends \PHPUnit_Framework_TestCase{
 
 	public function testCheckByIp()
 	{
-		$velocityChecker = new VelocityChecker();
+		$captchaCheckerByIp = new CaptchaCheckerByIp();
 		$time            = time();
 
 		$attemptDo = new AttemptDo('192.168.0.1', $time);
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIp($attemptDo));
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIp($attemptDo));
+		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
+		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3601);
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIp($attemptDo));
+		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3600);
-		$this->assertTrue($velocityChecker->isCaptchaNeededByIp($attemptDo));
+		$this->assertTrue($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3601);
-		$this->assertTrue($velocityChecker->isCaptchaNeededByIp($attemptDo));
+		$this->assertTrue($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 	}
 
 	public function testCheckByIpRange()
 	{
-		$velocityChecker = new VelocityChecker();
+		$captchaCheckerByIpRange = new CaptchaCheckerByIpRange();
 		$time            = time();
 
 		$attemptDo = new AttemptDo('192.168.0', $time);
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
+		$this->assertFalse($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
+		$this->assertFalse($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
+		$this->assertFalse($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
+		$this->assertFalse($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
 		$attemptDo = new AttemptDo('192.168.0', $time - 3601);
-		$this->assertFalse($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
+		$this->assertFalse($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
 		$attemptDo = new AttemptDo('192.168.0', $time - 3600);
-		$this->assertTrue($velocityChecker->isCaptchaNeededByIpRange($attemptDo));
+		$this->assertTrue($captchaCheckerByIpRange->checkIsCaptchaNeeded($attemptDo));
 	}
 
 	public function testAttemptDo()

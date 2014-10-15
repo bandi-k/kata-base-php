@@ -7,7 +7,7 @@ namespace Kata\VelocityChecker;
 
 class CaptchaCheckerByIpRange extends CaptchaCheckerAbstract{
 	/** The failed login limits. */
-	const FAILED_LOGIN_LIMIT_IP_RANGE = 5;
+	const FAILED_LOGIN_LIMIT_IP_RANGE = 50;
 
 	/** @var array   Contains the failed login attempts ip ranges. */
 	protected $failedLoginsIpRanges = array();
@@ -22,4 +22,4 @@ class CaptchaCheckerByIpRange extends CaptchaCheckerAbstract{
 		return $this->isCaptchaNeeded($this->failedLoginsIpRanges, $attemptDo->getValue(), self::FAILED_LOGIN_LIMIT_IP_RANGE);
 	}
 
-} 
+}

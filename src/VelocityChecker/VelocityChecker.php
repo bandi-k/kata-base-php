@@ -21,7 +21,7 @@ class VelocityChecker {
 	protected $failedLoginsIpRanges = array();
 
 	/**
-	 * Checks the captcha is needed by ip.
+	 * Decides the captcha is needed by ip.
 	 *
 	 * @param string $ip     The ip address.
 	 * @param int    $time   The login timestamp.
@@ -31,33 +31,15 @@ class VelocityChecker {
 	public function isCaptchaNeededByIp($ip, $time)
 	{
 		$this->failedLoginsIps[] = array(
-			'ip'   => $ip,
-			'time' => $time,
+			'value' => $ip,
+			'time'  => $time,
 		);
 
-		$attemptCount        = 0;
-		$attemptValidityTime = time() - self::FAILED_LOGIN_ATTEMPTS_TTL;
-
-		foreach ($this->failedLoginsIps as $attempt)
-		{
-			if ($attempt['ip'] !== $ip)
-			{
-				continue;
-			}
-
-			if (
-				$attempt['time'] >= $attemptValidityTime
-				&& ++$attemptCount >= self::FAILED_LOGIN_LIMIT_IP
-			) {
-				return true;
-			}
-		}
-
-		return false;
+		return $this->isCaptchaNeeded($this->failedLoginsIps, $ip, self::FAILED_LOGIN_LIMIT_IP);
 	}
 
 	/**
-	 * Checks the captcha is needed by ip range.
+	 * Decides the captcha is needed by ip range.
 	 *
 	 * @param string $ipRange   The ip address range.
 	 * @param int    $time      The login timestamp.
@@ -67,23 +49,38 @@ class VelocityChecker {
 	public function isCaptchaNeededByIpRange($ipRange, $time)
 	{
 		$this->failedLoginsIpRanges[] = array(
-			'ip_range' => $ipRange,
-			'time'     => $time,
+			'value' => $ipRange,
+			'time'  => $time,
 		);
 
+		return $this->isCaptchaNeeded($this->failedLoginsIpRanges, $ipRange, self::FAILED_LOGIN_LIMIT_IP_RANGE);
+	}
+
+
+	/**
+	 * Decides the captcha is needed.
+	 *
+	 * @param array  $attempts       The attempts array.
+	 * @param string $attemptValue   The current attempt value.
+	 * @param int    $attemptLimit   The failed attempts limit.
+	 *
+	 * @return bool
+	 */
+	protected function isCaptchaNeeded(array $attempts, $attemptValue, $attemptLimit)
+	{
 		$attemptCount        = 0;
 		$attemptValidityTime = time() - self::FAILED_LOGIN_ATTEMPTS_TTL;
 
-		foreach ($this->failedLoginsIpRanges as $attempt)
+		foreach ($attempts as $attempt)
 		{
-			if ($attempt['ip_range'] !== $ipRange)
+			if ($attempt['value'] !== $attemptValue)
 			{
 				continue;
 			}
 
 			if (
 				$attempt['time'] >= $attemptValidityTime
-				&& ++$attemptCount >= self::FAILED_LOGIN_LIMIT_IP_RANGE
+				&& ++$attemptCount >= $attemptLimit
 			) {
 				return true;
 			}

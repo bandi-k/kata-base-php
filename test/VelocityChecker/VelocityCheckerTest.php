@@ -11,6 +11,16 @@ use Kata\VelocityChecker\VelocityChecker;
 
 class VelocityCheckerTest extends \PHPUnit_Framework_TestCase{
 
+	public function testVelocityChecker()
+	{
+		$velocityChecker = new VelocityChecker();
+		$time            = time();
+
+		$this->assertFalse($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
+		$this->assertFalse($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
+		$this->assertTrue($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
+	}
+
 	public function testCheckByIp()
 	{
 		$captchaCheckerByIp = new CaptchaCheckerByIp();

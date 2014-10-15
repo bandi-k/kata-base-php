@@ -23,37 +23,29 @@ class VelocityChecker {
 	/**
 	 * Decides the captcha is needed by ip.
 	 *
-	 * @param string $ip     The ip address.
-	 * @param int    $time   The login timestamp.
+	 * @param AttemptDo $attemptDo   The failed login attempt data.
 	 *
 	 * @return bool   TRUE, if captcha is needed, otherwise FALSE.
 	 */
-	public function isCaptchaNeededByIp($ip, $time)
+	public function isCaptchaNeededByIp(AttemptDo $attemptDo)
 	{
-		$this->failedLoginsIps[] = array(
-			'value' => $ip,
-			'time'  => $time,
-		);
+		$this->increaseAttempts($this->failedLoginsIps, $attemptDo);
 
-		return $this->isCaptchaNeeded($this->failedLoginsIps, $ip, self::FAILED_LOGIN_LIMIT_IP);
+		return $this->isCaptchaNeeded($this->failedLoginsIps, $attemptDo->getValue(), self::FAILED_LOGIN_LIMIT_IP);
 	}
 
 	/**
 	 * Decides the captcha is needed by ip range.
 	 *
-	 * @param string $ipRange   The ip address range.
-	 * @param int    $time      The login timestamp.
+	 * @param AttemptDo $attemptDo   The failed login attempt data.
 	 *
 	 * @return bool   TRUE, if captcha is needed, otherwise FALSE.
 	 */
-	public function isCaptchaNeededByIpRange($ipRange, $time)
+	public function isCaptchaNeededByIpRange(AttemptDo $attemptDo)
 	{
-		$this->failedLoginsIpRanges[] = array(
-			'value' => $ipRange,
-			'time'  => $time,
-		);
+		$this->increaseAttempts($this->failedLoginsIpRanges, $attemptDo);
 
-		return $this->isCaptchaNeeded($this->failedLoginsIpRanges, $ipRange, self::FAILED_LOGIN_LIMIT_IP_RANGE);
+		return $this->isCaptchaNeeded($this->failedLoginsIpRanges, $attemptDo->getValue(), self::FAILED_LOGIN_LIMIT_IP_RANGE);
 	}
 
 
@@ -71,15 +63,16 @@ class VelocityChecker {
 		$attemptCount        = 0;
 		$attemptValidityTime = time() - self::FAILED_LOGIN_ATTEMPTS_TTL;
 
+		/** @var AttemptDo $attempt */
 		foreach ($attempts as $attempt)
 		{
-			if ($attempt['value'] !== $attemptValue)
+			if ($attempt->getValue() !== $attemptValue)
 			{
 				continue;
 			}
 
 			if (
-				$attempt['time'] >= $attemptValidityTime
+				$attempt->getTime() >= $attemptValidityTime
 				&& ++$attemptCount >= $attemptLimit
 			) {
 				return true;
@@ -87,5 +80,18 @@ class VelocityChecker {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Increases the failed attempts.
+	 *
+	 * @param array     &$attempts   The current attempts container.
+	 * @param AttemptDo $attemptDo   The failed login attempt data.
+	 *
+	 * @return void
+	 */
+	protected function increaseAttempts(array &$attempts, AttemptDo $attemptDo)
+	{
+		$attempts[] = $attemptDo;
 	}
 } 

@@ -18,6 +18,7 @@ class VelocityCheckerTest extends \PHPUnit_Framework_TestCase{
 
 		$this->assertFalse($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
 		$this->assertFalse($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
+		$this->assertFalse($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
 		$this->assertTrue($velocityChecker->checkIsCaptchaNeeded('192.168.0.1', '192.168.0', 'hungary', 'bandi', $time));
 	}
 
@@ -29,10 +30,14 @@ class VelocityCheckerTest extends \PHPUnit_Framework_TestCase{
 		$attemptDo = new AttemptDo('192.168.0.1', $time);
 		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
+
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3601);
 		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
+
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3600);
+		$this->assertFalse($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 		$this->assertTrue($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
+
 		$attemptDo = new AttemptDo('192.168.0.1', $time - 3601);
 		$this->assertTrue($captchaCheckerByIp->checkIsCaptchaNeeded($attemptDo));
 	}
@@ -79,12 +84,4 @@ class VelocityCheckerTest extends \PHPUnit_Framework_TestCase{
 		$this->assertFalse($captchaCheckerByUserName->checkIsCaptchaNeeded($attemptDo));
 		$this->assertTrue($captchaCheckerByUserName->checkIsCaptchaNeeded($attemptDo));
 	}
-
-	public function testAttemptDo()
-	{
-		$attemptDo = new AttemptDo('akarmi', 456789);
-
-		$this->assertEquals('akarmi', $attemptDo->getValue());
-		$this->assertEquals(456789, $attemptDo->getTime());
-	}
-} 
+}

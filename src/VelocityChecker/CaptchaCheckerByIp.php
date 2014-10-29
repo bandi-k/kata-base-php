@@ -17,8 +17,10 @@ class CaptchaCheckerByIp extends CaptchaCheckerAbstract {
 	 */
 	public function checkIsCaptchaNeeded(AttemptDo $attemptDo)
 	{
+		$isCaptchaNeeded = $this->isCaptchaNeeded($this->failedLoginsIps, $attemptDo->getValue(), self::FAILED_LOGIN_LIMIT_IP);
+
 		$this->increaseAttempts($this->failedLoginsIps, $attemptDo);
 
-		return $this->isCaptchaNeeded($this->failedLoginsIps, $attemptDo->getValue(), self::FAILED_LOGIN_LIMIT_IP);
+		return $isCaptchaNeeded;
 	}
 } 

@@ -46,7 +46,33 @@ class VelocityChecker {
 	{
 		$attempt = new AttemptDo($ip, $time);
 
-		return $this->captchaCheckerByIp->checkIsCaptchaNeeded($attempt);
+		if ($this->captchaCheckerByIp->checkIsCaptchaNeeded($attempt))
+		{
+			return true;
+		}
+
+		/*$attempt = new AttemptDo($ipRange, $time);
+
+		if ($this->captchaCheckerByIpRange->checkIsCaptchaNeeded($attempt))
+		{
+			return true;
+		}
+
+		$attempt = new AttemptDo($country, $time);
+
+		if ($this->captchaCheckerByCountry->checkIsCaptchaNeeded($attempt))
+		{
+			return true;
+		}
+
+		$attempt = new AttemptDo($userName, $time);
+
+		if ($this->captchaCheckerByUserName->checkIsCaptchaNeeded($attempt))
+		{
+			return true;
+		}*/
+
+		return false;
 	}
 
 } 

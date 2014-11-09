@@ -4,7 +4,6 @@ namespace Kata\Test\Legacy;
 
 use Kata\Legacy\ProductDao;
 use Kata\Legacy\Product;
-use Kata\Legacy\NullProduct;
 
 class ProductDaoTest extends \PHPUnit_Framework_TestCase
 {
@@ -81,6 +80,8 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * Create product test.
+	 *
+	 * @return Product
 	 */
 	public function testCreateProduct()
 	{
@@ -93,5 +94,47 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		$resultProduct = $productDao->getByEan('ean2');
 
 		$this->assertEquals($product->getName(), $resultProduct->getName());
+
+		return $resultProduct;
+	}
+
+	/**
+	 * Modify product test.
+	 *
+	 * @param Product $product
+	 *
+	 * @return Product
+	 *
+	 * @depends testCreateProduct
+	 */
+	public function testModifyProduct(Product $product)
+	{
+		$modifiedProduct = new Product($product->getId(), 'modifiedEan', 'modifiedName');
+
+		$productDao = new ProductDao(self::$pdo);
+		$this->assertTrue($productDao->modify($modifiedProduct));
+
+		$resultProduct = $productDao->getByEan('modifiedEan');
+
+		$this->assertEquals($modifiedProduct, $resultProduct);
+
+		return $resultProduct;
+	}
+
+	/**
+	 * Delete product test.
+	 *
+	 * @param Product $product
+	 *
+	 * @depends testCreateProduct
+	 */
+	public function testDeleteProduct(Product $product)
+	{
+		$productDao = new ProductDao(self::$pdo);
+		$this->assertTrue($productDao->delete($product));
+
+		$resultProduct = $productDao->getById($product->getId());
+
+		$this->assertInstanceOf('Kata\Legacy\NullProduct', $resultProduct);
 	}
 }

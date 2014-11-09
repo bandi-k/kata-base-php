@@ -8,15 +8,16 @@ use Kata\Legacy\ProductDao;
 try {
 
 	//- add my product
-	$product = new Product(null, '1234', 'Chicken');
+	$product    = new Product(null, '1234', 'Chicken');
+	$productDao = new ProductDao();
 
-	$result = ProductDao::create($product);
+	$result = $productDao->create($product);
 	var_export($result);
 
 	//- add my product - will delete
 	$product = new Product(null, '878789', 'Turkey');
 
-	$result = ProductDao::create($product);
+	$result = $productDao->create($product);
 	var_export($result);
 
 //    $productToUpdate = ProductDao::getByEan('878789');

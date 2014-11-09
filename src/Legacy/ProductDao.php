@@ -104,26 +104,28 @@ class ProductDao {
 	 * @param Product $product
 	 * @return bool
 	 */
-	public static function modify(Product $product)
+	public function modify(Product $product)
 	{
-	if (self::checkUnique($product->getEan()))
-	{
-		$sth = self::getPdo()->prepare("
-			UPDATE product
-			SET
-				ean = :ean,
-				name = :name
-			WHERE id = :id
-		");
+		if ($this->checkUnique($product->getEan()))
+		{
+			$sth = $this->pdo->prepare("
+				UPDATE product
+				SET
+					ean  = :_ean,
+					name = :_name
+				WHERE
+					id = :_id
+			");
 
 			$sth->execute(
 				array(
-					':id'   => $product->getId(),
-					':ean'  => $product->getEan(),
-					':name' => $product->getName(),
+					':_id'   => $product->getId(),
+					':_ean'  => $product->getEan(),
+					':_name' => $product->getName(),
 				)
 			);
 		}
+
 		return true;
 	}
 
@@ -131,11 +133,12 @@ class ProductDao {
 	 * Delete product from database
 	 *
 	 * @param Product $product
+	 *
 	 * @return bool
 	 */
-	public static function delete(Product $product)
+	public function delete(Product $product)
 	{
-		$sth = self::getPdo()->prepare("DELETE FROM product WHERE id = :id");
+		$sth = $this->pdo->prepare("DELETE FROM product WHERE id = :id");
 
 		$sth->execute(
 			array(

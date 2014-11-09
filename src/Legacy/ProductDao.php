@@ -84,14 +84,12 @@ class ProductDao {
 			    (:_ean, :_name)
 			");
 
-			$sth->execute(
+			return $sth->execute(
 				array(
 					':_ean'  => $product->getEan(),
 					':_name' => $product->getName(),
 				)
 			);
-
-			return true;
 		}
 
 		return false;
@@ -117,7 +115,7 @@ class ProductDao {
 					id = :_id
 			");
 
-			$sth->execute(
+			return $sth->execute(
 				array(
 					':_id'   => $product->getId(),
 					':_ean'  => $product->getEan(),
@@ -126,7 +124,7 @@ class ProductDao {
 			);
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -140,13 +138,11 @@ class ProductDao {
 	{
 		$sth = $this->pdo->prepare("DELETE FROM product WHERE id = :id");
 
-		$sth->execute(
+		return $sth->execute(
 			array(
-			':id' => $product->getId(),
+				':id' => $product->getId(),
 			)
 		);
-
-		return true;
 	}
 
 	/**

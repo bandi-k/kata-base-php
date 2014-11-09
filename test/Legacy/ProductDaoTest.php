@@ -2,6 +2,7 @@
 
 namespace Kata\Test\Legacy;
 
+use Kata\Legacy\NullProduct;
 use Kata\Legacy\ProductDao;
 use Kata\Legacy\Product;
 

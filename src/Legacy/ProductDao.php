@@ -74,7 +74,7 @@ class ProductDao {
 	 */
 	public static function create(Product $product)
 	{
-		if (self::checkUnique($product->ean))
+		if (self::checkUnique($product->getEan()))
 		{
 			$sth = self::getPdo()->prepare("
 			INSERT INTO product
@@ -85,8 +85,8 @@ class ProductDao {
 
 			$sth->execute(
 			array(
-				':ean' => $product->ean,
-				':name' => $product->name,
+				':ean' => $product->getEan(),
+				':name' => $product->getName(),
 			)
 			);
 			return true;
@@ -106,7 +106,7 @@ class ProductDao {
 	 */
 	public static function modify(Product $product)
 	{
-	if (self::checkUnique($product->ean))
+	if (self::checkUnique($product->getEan()))
 	{
 		$sth = self::getPdo()->prepare("
 			UPDATE product
@@ -118,9 +118,9 @@ class ProductDao {
 
 			$sth->execute(
 				array(
-					':id'   => $product->id,
-					':ean'  => $product->ean,
-					':name' => $product->name,
+					':id'   => $product->getId(),
+					':ean'  => $product->getEan(),
+					':name' => $product->getName(),
 				)
 			);
 		}
@@ -139,7 +139,7 @@ class ProductDao {
 
 		$sth->execute(
 			array(
-			':id' => $product->id,
+			':id' => $product->getId(),
 			)
 		);
 
@@ -182,12 +182,8 @@ class ProductDao {
 
 		if (count($products) === 1)
 		{
-			$product = $products[0];
-
-			$productObject       = new Product;
-			$productObject->id   = $product['id'];
-			$productObject->name = $product['name'];
-			$productObject->ean  = $product['ean'];
+			$product       = $products[0];
+			$productObject = new Product($product['id'], $product['ean'], $product['name']);
 
 			return $productObject;
 		}

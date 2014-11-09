@@ -11,7 +11,7 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 	/** The database dsn. */
 	const DSN = 'sqlite:./productTest.db';
 
-	/** @var   \PDO The test db resource. */
+	/** @var \PDO   The test db resource. */
 	protected static $pdo;
 
 	public static function setUpBeforeClass()
@@ -48,7 +48,7 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		$product    = $productDao->getByEan('ean1');
 
 		$this->assertInstanceOf('Kata\Legacy\Product', $product);
-		$this->assertEquals('ean1', $product->ean);
+		$this->assertEquals('ean1', $product->getEan());
 
 		return $product;
 	}
@@ -63,9 +63,9 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 	public function testGetById(Product $product)
 	{
 		$productDao = new ProductDao(self::$pdo);
-		$product    = $productDao->getById($product->id);
+		$product    = $productDao->getById($product->getId());
 
-		$this->assertEquals('ean1', $product->ean);
+		$this->assertEquals('ean1', $product->getEan());
 	}
 
 	/**

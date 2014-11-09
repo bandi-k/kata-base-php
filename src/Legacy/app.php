@@ -1,8 +1,9 @@
 <?php
 
-namespace Kata\Legacy;
+require_once '../../vendor/autoload.php';
 
-define('PRODUCTION_DATABASE_FILE', './product.db');
+use Kata\Legacy\Product;
+use Kata\Legacy\ProductDao;
 
 try {
 

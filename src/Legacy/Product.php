@@ -22,8 +22,3 @@ class Product
 	 */
 	public $name;
 }
-
-/**
- * Representing empty product / null product
- */
-class NullProduct extends Product {}

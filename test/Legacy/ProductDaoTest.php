@@ -4,6 +4,7 @@ namespace Kata\Test\Legacy;
 
 use Kata\Legacy\ProductDao;
 use Kata\Legacy\Product;
+use Kata\Legacy\NullProduct;
 
 class ProductDaoTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,22 +12,37 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 	const DSN = 'sqlite:./productTest.db';
 
 	/** @var   \PDO The test db resource. */
-	protected $pdo;
+	protected static $pdo;
 
-	public function setUp()
+	public static function setUpBeforeClass()
 	{
-		$this->pdo = new \PDO(self::DSN);
-		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-		$this->pdo->exec("CREATE TABLE product (id INTEGER PRIMARY KEY, ean varchar(64) default '', name text default '')");
+		self::$pdo = new \PDO(self::DSN);
+		self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+		$sql = "CREATE TABLE product (id INTEGER PRIMARY KEY, ean varchar(64) default '', name text default '')";
+
+		self::$pdo->exec($sql);
 	}
 
-	public function tearDown()
+	public static function tearDownAfterClass()
 	{
-		$this->pdo->exec("DROP TABLE product");
+		self::$pdo->exec("DROP TABLE product");
 	}
 
-	public function testDb()
+	public function testGetByEan()
 	{
-		$this->assertTrue(true);
+		$sth = self::$pdo->prepare("INSERT INTO product (ean, name) VALUES (:_ean, :_name)");
+		$sth->execute(
+			array(
+				':_ean'  => 'ean1',
+				':_name' => 'test product',
+			)
+		);
+
+		$productDao = new ProductDao(self::$pdo);
+		$product    = $productDao->getByEan('ean1');
+
+		//$this->assertInstanceOf('\Product', $product);
+		$this->assertEquals('ean1', $product->ean);
 	}
 }

@@ -1,16 +1,36 @@
 <?php
 
 namespace Kata\Legacy;
+use SebastianBergmann\Exporter\Exception;
 
 /**
  * Class ProductDao
  */
 class ProductDao {
+
+	const PRODUCTION_DATABASE_FILE = '/product.db';
+
 	/**
 	 * @var \PDO Database resource.
 	 */
-	private static $pdo;
+	private $pdo;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param \PDO $pdo   The db resource.
+	 */
+	public function __construct(\PDO $pdo = null)
+	{
+		if ($pdo instanceof \PDO)
+		{
+			$this->pdo = $pdo;
+		}
+		else
+		{
+			$this->pdo = $this->getPdo();
+		}
+	}
 
 	/**
 	 * Get product by EAN.
@@ -19,24 +39,23 @@ class ProductDao {
 	 * @return NullProduct|Product
 	 */
 
-	public static function getByEan($ean)
+	public function getByEan($ean)
 	{
-		$sth = self::getPdo()->prepare("SELECT * FROM product WHERE ean = :ean");
+		$sth = $this->pdo->prepare("SELECT * FROM product WHERE ean = :ean");
 		$sth->execute(
 			array(
 			':ean' => $ean,
 			)
 		);
 
-		$rows = $sth->fetchAll();
-		if (count($rows) > 0)
-		{
-			$row = $rows[0];
+		$result = $sth->fetchAll();
 
+		if (!empty($result))
+		{
 			$product       = new Product;
-			$product->id   = $row['id'];
-			$product->name = $row['name'];
-			$product->ean  = $row['ean'];
+			$product->id   = $result[0]['id'];
+			$product->name = $result[0]['name'];
+			$product->ean  = $result[0]['ean'];
 
 			return $product;
 		}
@@ -126,8 +145,8 @@ class ProductDao {
 
 			$sth->execute(
 				array(
-					':id' => $product->id,
-					':ean' => $product->ean,
+					':id'   => $product->id,
+					':ean'  => $product->ean,
 					':name' => $product->name,
 				)
 			);
@@ -158,16 +177,22 @@ class ProductDao {
 	 * Internal PDO getter
 	 *
 	 * @return \PDO
+	 * @throws Exception
 	 */
-	private static function getPdo()
+	private function getPdo()
 	{
-		if (!(self::$pdo !== null && self::$pdo instanceof \PDO))
+		try
 		{
-			$dsn = sprintf("sqlite:%s", PRODUCTION_DATABASE_FILE);
-			self::$pdo = new \PDO($dsn);
-			self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+			$dsn = sprintf("sqlite:%s", __DIR__ . self::PRODUCTION_DATABASE_FILE);
+			$pdo = new \PDO($dsn);
+			$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+			return $pdo;
 		}
-		return self::$pdo;
+		catch(Exception $exception)
+		{
+			throw new Exception('Could not crate the db source.');
+		}
 	}
 
 	/**

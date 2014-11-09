@@ -30,7 +30,9 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Get by EAN test.
+	 * Get product by EAN test.
+	 *
+	 * @return Product
 	 */
 	public function testGetByEan()
 	{
@@ -46,6 +48,23 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		$product    = $productDao->getByEan('ean1');
 
 		//$this->assertInstanceOf('\Product', $product);
+		$this->assertEquals('ean1', $product->ean);
+
+		return $product;
+	}
+
+	/**
+	 * Get product by id test.
+	 *
+	 * @param Product $product
+	 *
+	 * @depends testGetByEan
+	 */
+	public function testGetById(Product $product)
+	{
+		$productDao = new ProductDao(self::$pdo);
+		$product    = $productDao->getById($product->id);
+
 		$this->assertEquals('ean1', $product->ean);
 	}
 }

@@ -70,31 +70,31 @@ class ProductDao {
 	 * Create product in database if the EAN is not existing.
 	 *
 	 * @param Product $product
+	 *
 	 * @return bool
 	 */
-	public static function create(Product $product)
+	public function create(Product $product)
 	{
-		if (self::checkUnique($product->getEan()))
+		if ($this->checkUnique($product->getEan()))
 		{
-			$sth = self::getPdo()->prepare("
+			$sth = $this->pdo->prepare("
 			INSERT INTO product
 			    (ean, name)
 			VALUES
-			    (:ean, :name)
+			    (:_ean, :_name)
 			");
 
 			$sth->execute(
-			array(
-				':ean' => $product->getEan(),
-				':name' => $product->getName(),
-			)
+				array(
+					':_ean'  => $product->getEan(),
+					':_name' => $product->getName(),
+				)
 			);
+
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -199,23 +199,18 @@ class ProductDao {
 	 * Check if the product will be unique by EAN
 	 *
 	 * @param $ean
+	 *
 	 * @return bool
 	 */
-	private static function checkUnique($ean)
+	private function checkUnique($ean)
 	{
-		$sth = self::getPdo()->prepare("SELECT COUNT(1) FROM product WHERE ean = :ean");
-		$sth->execute(
-			array(
-			':ean' => $ean,
-			)
-		);
+		$product = $this->getByEan($ean);
 
-		$countRow = $sth->fetch();
-		if ($countRow[0] > 0)
+		if ($product instanceof NullProduct)
 		{
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }

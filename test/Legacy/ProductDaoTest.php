@@ -78,4 +78,20 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('Kata\Legacy\NullProduct', $product);
 	}
+
+	/**
+	 * Create product test.
+	 */
+	public function testCreateProduct()
+	{
+		$product = new Product(null, 'ean2', 'test222');
+
+		$productDao = new ProductDao(self::$pdo);
+		$this->assertTrue($productDao->create($product));
+		$this->assertFalse($productDao->create($product));
+
+		$resultProduct = $productDao->getByEan('ean2');
+
+		$this->assertEquals($product->getName(), $resultProduct->getName());
+	}
 }

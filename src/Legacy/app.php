@@ -8,17 +8,13 @@ use Kata\Legacy\ProductDao;
 try {
 
 	//- add my product
-	$product = new Product();
-	$product->ean = '1234';
-	$product->name = 'Chicken';
+	$product = new Product(null, '1234', 'Chicken');
 
 	$result = ProductDao::create($product);
 	var_export($result);
 
 	//- add my product - will delete
-	$product = new Product();
-	$product->ean = '878789';
-	$product->name = 'Turkey';
+	$product = new Product(null, '878789', 'Turkey');
 
 	$result = ProductDao::create($product);
 	var_export($result);

@@ -47,7 +47,7 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		$productDao = new ProductDao(self::$pdo);
 		$product    = $productDao->getByEan('ean1');
 
-		//$this->assertInstanceOf('\Product', $product);
+		$this->assertInstanceOf('Kata\Legacy\Product', $product);
 		$this->assertEquals('ean1', $product->ean);
 
 		return $product;
@@ -66,5 +66,16 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		$product    = $productDao->getById($product->id);
 
 		$this->assertEquals('ean1', $product->ean);
+	}
+
+	/**
+	 * Get nullProduct by id test.
+	 */
+	public function testGetNullProductById()
+	{
+		$productDao = new ProductDao(self::$pdo);
+		$product    = $productDao->getById(0);
+
+		$this->assertInstanceOf('Kata\Legacy\NullProduct', $product);
 	}
 }

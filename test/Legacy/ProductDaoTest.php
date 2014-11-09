@@ -29,6 +29,9 @@ class ProductDaoTest extends \PHPUnit_Framework_TestCase
 		self::$pdo->exec("DROP TABLE product");
 	}
 
+	/**
+	 * Get by EAN test.
+	 */
 	public function testGetByEan()
 	{
 		$sth = self::$pdo->prepare("INSERT INTO product (ean, name) VALUES (:_ean, :_name)");

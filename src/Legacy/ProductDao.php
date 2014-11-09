@@ -1,18 +1,16 @@
 <?php
 
 namespace Kata\Legacy;
-use SebastianBergmann\Exporter\Exception;
 
 /**
  * Class ProductDao
  */
 class ProductDao {
 
+	/** The db file name. */
 	const PRODUCTION_DATABASE_FILE = '/product.db';
 
-	/**
-	 * @var \PDO Database resource.
-	 */
+	/** @var \PDO   Database resource. */
 	private $pdo;
 
 	/**
@@ -22,21 +20,15 @@ class ProductDao {
 	 */
 	public function __construct(\PDO $pdo = null)
 	{
-		if ($pdo instanceof \PDO)
-		{
-			$this->pdo = $pdo;
-		}
-		else
-		{
-			$this->pdo = $this->getPdo();
-		}
+		$this->pdo = ($pdo instanceof \PDO) ? $pdo : $this->getPdo();
 	}
 
 	/**
 	 * Get product by EAN.
 	 *
-	 * @param $ean
-	 * @return NullProduct|Product
+	 * @param string $ean   The EAN number.
+	 *
+	 * @return Product
 	 */
 
 	public function getByEan($ean)
@@ -48,30 +40,21 @@ class ProductDao {
 			)
 		);
 
-		$result = $sth->fetchAll();
+		$rows = $sth->fetchAll();
 
-		if (!empty($result))
-		{
-			$product       = new Product;
-			$product->id   = $result[0]['id'];
-			$product->name = $result[0]['name'];
-			$product->ean  = $result[0]['ean'];
-
-			return $product;
-		}
-
-		return new NullProduct;
+		return $this->getProduct($rows);
 	}
 
 	/**
 	 * Get product by id.
 	 *
-	 * @param $id
-	 * @return NullProduct|Product
+	 * @param int $id   The product id.
+	 *
+	 * @return Product
 	 */
-	public static function getById($id)
+	public function getById($id)
 	{
-		$sth = self::getPdo()->prepare("SELECT * FROM product WHERE id = :id");
+		$sth = $this->pdo->prepare("SELECT * FROM product WHERE id = :id");
 		$sth->execute(
 			array(
 			':id' => $id,
@@ -79,20 +62,10 @@ class ProductDao {
 		);
 
 		$rows = $sth->fetchAll();
-		if (count($rows) > 0)
-		{
-			$row = $rows[0];
 
-			$product = new Product;
-			$product->id = $row['id'];
-			$product->name = $row['name'];
-			$product->ean = $row['ean'];
-
-			return $product;
-		}
-
-		return new NullProduct;
+		return $this->getProduct($rows);
 	}
+
 	/**
 	 * Create product in database if the EAN is not existing.
 	 *
@@ -177,7 +150,7 @@ class ProductDao {
 	 * Internal PDO getter
 	 *
 	 * @return \PDO
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function getPdo()
 	{
@@ -189,10 +162,41 @@ class ProductDao {
 
 			return $pdo;
 		}
-		catch(Exception $exception)
+		catch(\Exception $exception)
 		{
-			throw new Exception('Could not crate the db source.');
+			throw new \Exception('Could not crate the db source.');
 		}
+	}
+
+	/**
+	 * Returns the product object.
+	 *
+	 * @param array $products   The products.
+	 *
+	 * @return NullProduct|Product
+	 * @throws \Exception
+	 */
+	private function getProduct(array $products)
+	{
+		$rowNumber = count($products);
+
+		if (count($products) === 1)
+		{
+			$product = $products[0];
+
+			$productObject       = new Product;
+			$productObject->id   = $product['id'];
+			$productObject->name = $product['name'];
+			$productObject->ean  = $product['ean'];
+
+			return $productObject;
+		}
+		elseif ($rowNumber > 1)
+		{
+			throw new \Exception('Db consistency error!');
+		}
+
+		return new NullProduct;
 	}
 
 	/**

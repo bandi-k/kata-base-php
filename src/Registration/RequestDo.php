@@ -12,7 +12,7 @@ class RequestDo
 	protected $password;
 	protected $passwordConfirm;
 
-	public function __construct($userName, $password, $passwordConfirm)
+	public function __construct($userName, $password = '', $passwordConfirm = '')
 	{
 		$this->userName        = $userName;
 		$this->password        = $password;

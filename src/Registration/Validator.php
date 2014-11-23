@@ -5,21 +5,36 @@
  */
 namespace Kata\Registration;
 
-class ValidatorBo
+class Validator
 {
-	/** @var RequestDo */
+	/** @var Request */
 	protected $request;
 
-	public function __construct(RequestDo $request)
+	/**
+	 * Constructor.
+	 *
+	 * @param Request $request   The request object.
+	 */
+	public function __construct(Request $request)
 	{
 		$this->request = $request;
 	}
 
+	/**
+	 * Returns whether is valid user name.
+	 *
+	 * @return bool  True, if is valid user name.
+	 */
 	public function isValidUserName()
 	{
 		return (bool)preg_match('#^[a-z0-9]{4,128}$#', $this->request->getUserName());
 	}
 
+	/**
+	 * Returns whether is valid password.
+	 *
+	 * @return bool  True, if is valid password.
+	 */
 	public function isValidPassword()
 	{
 		$password = $this->request->getPassword();

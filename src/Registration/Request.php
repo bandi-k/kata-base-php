@@ -5,8 +5,7 @@
  */
 namespace Kata\Registration;
 
-
-class RequestDo
+class Request
 {
 	/** @var string   The user's name. */
 	protected $userName;

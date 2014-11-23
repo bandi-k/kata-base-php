@@ -5,9 +5,8 @@
  */
 namespace Kata\Test\Registration;
 
-use Kata\Registration\ValidatorBo;
-use Kata\Registration\RequestDo;
-
+use Kata\Registration\Validator;
+use Kata\Registration\Request;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +16,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testValidatorBoSuccess($name, $password, $passwordConfirm)
 	{
-		$request   = new RequestDo($name, $password, $passwordConfirm);
-		$validator = new ValidatorBo($request);
+		$request   = new Request($name, $password, $passwordConfirm);
+		$validator = new Validator($request);
 
 		$this->assertTrue($validator->isValidUserName());
 		$this->assertTrue($validator->isValidPassword());
@@ -43,8 +42,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testValidatorBoUnsuccess($name, $password, $passwordConfirm)
 	{
-		$request   = new RequestDo($name, $password, $passwordConfirm);
-		$validator = new ValidatorBo($request);
+		$request   = new Request($name, $password, $passwordConfirm);
+		$validator = new Validator($request);
 
 		$this->assertFalse($validator->isValidUserName());
 		$this->assertFalse($validator->isValidPassword());

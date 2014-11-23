@@ -2,6 +2,7 @@
 
 /**
  * The user data access object.
+ * Name UserDao cause a mysterious git bug.
  */
 namespace Kata\Registration;
 
@@ -95,6 +96,7 @@ class UserDao2
 	 */
 	private function getPdo()
 	{
+		// @codeCoverageIgnoreStart
 		try
 		{
 			$dsn = sprintf("sqlite:%s", __DIR__ . self::REGISTRATION_DATABASE_FILE);
@@ -107,5 +109,6 @@ class UserDao2
 		{
 			throw new \Exception('Could not crate the db source.');
 		}
+		// @codeCoverageIgnoreEnd
 	}
 }

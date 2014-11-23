@@ -8,10 +8,18 @@ namespace Kata\Registration;
 
 class RequestDo
 {
+	/** @var string   The user's name. */
 	protected $userName;
+	/** @var string   The user's password. */
 	protected $password;
+	/** @var string   The user's password confirm. */
 	protected $passwordConfirm;
 
+	/**
+	 * @param string $userName          The user's name.
+	 * @param string $password          The user's password.
+	 * @param string $passwordConfirm   The user's password confirm.
+	 */
 	public function __construct($userName, $password = '', $passwordConfirm = '')
 	{
 		$this->userName        = $userName;
@@ -42,6 +50,4 @@ class RequestDo
 	{
 		return $this->passwordConfirm;
 	}
-
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Registration test cases.
+ * The registration validator bo test cases.
  */
 namespace Kata\Test\Registration;
 
@@ -9,7 +9,7 @@ use Kata\Registration\ValidatorBo;
 use Kata\Registration\RequestDo;
 
 
-class RegistrationTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
@@ -41,7 +41,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider providerValidatorUnsuccess
 	 */
-	public function testValidatorBoUnSuccess($name, $password, $passwordConfirm)
+	public function testValidatorBoUnsuccess($name, $password, $passwordConfirm)
 	{
 		$request   = new RequestDo($name, $password, $passwordConfirm);
 		$validator = new ValidatorBo($request);

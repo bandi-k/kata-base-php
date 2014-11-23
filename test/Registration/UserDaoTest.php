@@ -17,7 +17,7 @@ class UserDaoTest extends \PHPUnit_Framework_TestCase
 	/** @var \PDO   The db resource. */
 	protected static $pdo;
 
-	/** @var UserDao */
+	/** @var UserDao2 */
 	protected $userDao;
 
 	/** setUpBeforeClass() */

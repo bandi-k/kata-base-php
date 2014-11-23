@@ -24,16 +24,23 @@ class Validator
 	 * Returns whether is valid user name.
 	 *
 	 * @return bool  True, if is valid user name.
+	 * @throws InvalidUserNameException
 	 */
 	public function isValidUserName()
 	{
-		return (bool)preg_match('#^[a-z0-9]{4,128}$#', $this->request->getUserName());
+		if ((bool)preg_match('#^[a-z0-9]{4,128}$#', $this->request->getUserName()))
+		{
+			return true;
+		}
+
+		throw new InvalidUserNameException();
 	}
 
 	/**
 	 * Returns whether is valid password.
 	 *
 	 * @return bool  True, if is valid password.
+	 * @throws InvalidPasswordException();
 	 */
 	public function isValidPassword()
 	{
@@ -43,12 +50,12 @@ class Validator
 			$password !== ''
 			&& strlen($password) < 6
 		) {
-			return false;
+			throw new InvalidPasswordException();
 		}
 
 		if ($password !== $this->request->getPasswordConfirm())
 		{
-			return false;
+			throw new InvalidPasswordException();
 		}
 
 		return true;

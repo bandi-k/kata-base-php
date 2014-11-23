@@ -10,13 +10,11 @@ use Kata\Registration\Request;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @dataProvider providerValidatorSuccess
 	 */
-	public function testValidatorBoSuccess($name, $password, $passwordConfirm)
+	public function testValidatorBoSuccess($request)
 	{
-		$request   = new Request($name, $password, $passwordConfirm);
 		$validator = new Validator($request);
 
 		$this->assertTrue($validator->isValidUserName());
@@ -25,28 +23,36 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * Validator success data provider.
-	 *
-	 * @return array
 	 */
 	public function providerValidatorSuccess()
 	{
 		return array(
-			array('bandi', 'jelszo1', 'jelszo1'),
-			array('jozsika', 'jelszo2', 'jelszo2'),
-			array('pistike9', '3jelszo', '3jelszo'),
+			array(new Request('bandi', 'jelszo1', 'jelszo1')),
+			array(new Request('jozsika', 'jelszo2', 'jelszo2')),
+			array(new Request('pistike9', '3jelszo', '3jelszo')),
 		);
 	}
 
 	/**
 	 * @dataProvider providerValidatorUnsuccess
+	 * @expectedException \Kata\Registration\InvalidUserNameException
 	 */
-	public function testValidatorBoUnsuccess($name, $password, $passwordConfirm)
+	public function testInvalidUserNameException($request)
 	{
-		$request   = new Request($name, $password, $passwordConfirm);
 		$validator = new Validator($request);
 
-		$this->assertFalse($validator->isValidUserName());
-		$this->assertFalse($validator->isValidPassword());
+		$validator->isValidUserName();
+	}
+
+	/**
+	 * @dataProvider providerValidatorUnsuccess
+	 * @expectedException \Kata\Registration\InvalidPasswordException
+	 */
+	public function testInvalidPasswordException($request)
+	{
+		$validator = new Validator($request);
+
+		$validator->isValidPassword();
 	}
 
 	/**
@@ -57,9 +63,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	public function providerValidatorUnsuccess()
 	{
 		return array(
-			array('bandI', 'jelsz', 'jelsz'),
-			array('joz', 'jelszo', 'jelszoo'),
-			array('pistike9kaslashfdkldasjlhfuiwhfbvshagsgvhsfdbvakzugfhasjdgvaskfdzwgaefgshdgjhasgvcjhasdjshdgfasgfzugwfzuqgwfzuqgfzwgfasdfasdfasdfasldkgaasdfasdfsfs', '3jel', 'jelszo'),
+			array(new Request('bandI', 'jelsz', 'jelsz')),
+			array(new Request('joz', 'jelszo', 'jelszoo')),
+			array(new Request('pistike9kaslashfdkldasjlhfuiwhfbvshagsgvhsfdbvakzugfhasjdgvaskfdzwgaefgshdgjhasgvcjhasdjshdgfasgfzugwfzuqgwfzuqgfzwgfasdfasdfasdfasldkgaasdfasdfsfs', '3jel', 'jelszo')),
 		);
 	}
 }

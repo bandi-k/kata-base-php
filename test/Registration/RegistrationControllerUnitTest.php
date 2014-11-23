@@ -53,6 +53,6 @@ class RegistrationControllerUnitTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($response->getSuccess(), 'yes');
 		$this->assertEquals($response->getResultCode(), 201);
-		$this->assertEquals($response->getResultId(), $request->getName);
+		$this->assertEquals($response->getResultId(), $request->getName());
 	}
 }

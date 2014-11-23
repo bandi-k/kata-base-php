@@ -20,8 +20,34 @@ class UserBuilder
 	 */
 	public function getUser($userName, $password)
 	{
-		$user = new User($userName, $password, $password . self::$salt);
+		return $this->createUser($userName, $password);
+	}
 
-		return $user;
+	/**
+	 * Returns the user object.
+	 *
+	 * @param string    $userName    The user's name.
+	 * @param Generator $generator   The password generator object.
+	 *
+	 * @return User   The user object.
+	 */
+	public function getUserWithGeneratedPassword($userName, Generator $generator)
+	{
+		$password = $generator->getPassword();
+
+		return $this->createUser($userName, $password);
+	}
+
+	/**
+	 * Creates the user object.
+	 *
+	 * @param string $userName   The user's name.
+	 * @param string $password   The user's password.
+	 *
+	 * @return User   The user object.
+	 */
+	protected function createUser($userName, $password)
+	{
+		return new User($userName, $password, $password . self::$salt);
 	}
 }

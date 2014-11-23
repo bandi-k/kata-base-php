@@ -6,7 +6,6 @@
 namespace Kata\Test\Registration;
 
 use Kata\Registration\UserBuilder;
-use Kata\Registration\User;
 
 class UserBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,6 +26,24 @@ class UserBuilderTest extends \PHPUnit_Framework_TestCase
 	public function testGetUser($userName, $password)
 	{
 		$user = $this->userBuilder->getUser($userName, $password);
+
+		$this->assertEquals($user->getName(), $userName);
+		$this->assertEquals($user->getPassword(), $password);
+		$this->assertEquals($user->getHashedPassword(), $password . UserBuilder::$salt);
+	}
+
+	/**
+	 * @dataProvider providerGetUser
+	 */
+	public function testGetUserWithGeneratedPassword($userName, $password)
+	{
+		$generator = $this->getMock('Kata\Registration\Generator');
+		$generator
+			->expects($this->once())
+			->method('getPassword')
+			->willReturn($password);
+
+		$user = $this->userBuilder->getUserWithGeneratedPassword($userName, $generator);
 
 		$this->assertEquals($user->getName(), $userName);
 		$this->assertEquals($user->getPassword(), $password);

@@ -60,7 +60,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 			array('bandI', 'jelsz', 'jelsz'),
 			array('joz', 'jelszo', 'jelszoo'),
 			array('pistike9kaslashfdkldasjlhfuiwhfbvshagsgvhsfdbvakzugfhasjdgvaskfdzwgaefgshdgjhasgvcjhasdjshdgfasgfzugwfzuqgwfzuqgfzwgfasdfasdfasdfasldkgaasdfasdfsfs', '3jel', 'jelszo'),
-
 		);
 	}
 }

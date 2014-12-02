@@ -41,7 +41,7 @@ class RegistrationControllerUnitTest extends \PHPUnit_Framework_TestCase
 			->willReturn($user);
 
 		$userDao = $this->getMock('Kata\Registration\UserDao');
-		$userBuilder
+		$userDao
 			->expects($this->once())
 			->method('create')
 			->willReturn($request->getUserName());

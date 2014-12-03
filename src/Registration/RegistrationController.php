@@ -43,11 +43,10 @@ class RegistrationController
 			$this->validator->isValidUserName();
 			$this->validator->isValidPassword();
 
-			$user = $this->userBuilder->getUser($request->getUserName(), $request->getPassword());
+			$user   = $this->userBuilder->getUser($request->getUserName(), $request->getPassword());
+			$userId = $this->userDao->create($user);
 
-			$uid = $this->userDao->create($user);
-
-			return new Response('yes', '201', $uid);
+			return new Response('yes', '201', $userId);
 		}
 		catch(InvalidUserNameException $exception)
 		{

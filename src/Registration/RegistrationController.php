@@ -29,6 +29,13 @@ class RegistrationController
 		$this->userDao     = $userDao;
 	}
 
+	/**
+	 * Create a registration.
+	 *
+	 * @param Request $request
+	 *
+	 * @return Response
+	 */
 	public function doRegistration(Request $request)
 	{
 		try

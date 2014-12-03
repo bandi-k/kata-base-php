@@ -40,7 +40,7 @@ class RegistrationControllerUnitTest extends \PHPUnit_Framework_TestCase
 			->method('getUser')
 			->willReturn($user);
 
-		$userDao = $this->getMock('Kata\Registration\UserDao');
+		$userDao = $this->getMock('Kata\Registration\UserDao2');
 		$userDao
 			->expects($this->once())
 			->method('create')
@@ -53,6 +53,6 @@ class RegistrationControllerUnitTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($response->getSuccess(), 'yes');
 		$this->assertEquals($response->getResultCode(), 201);
-		$this->assertEquals($response->getResultId(), $request->getName());
+		$this->assertEquals($response->getResultId(), $request->getUserName());
 	}
 }

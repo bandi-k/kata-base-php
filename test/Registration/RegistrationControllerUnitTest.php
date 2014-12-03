@@ -5,6 +5,7 @@
  */
 namespace Kata\Test\Registration;
 
+use Kata\Registration\InvalidUserNameException;
 use Kata\Registration\RegistrationController;
 use Kata\Registration\Request;
 use Kata\Registration\User;
@@ -48,11 +49,35 @@ class RegistrationControllerUnitTest extends \PHPUnit_Framework_TestCase
 
 		$controller = new RegistrationController($validator, $userBuilder, $userDao);
 
-		/** @var \Kata\Registration\Response $response */
 		$response = $controller->doRegistration($request);
 
 		$this->assertEquals($response->getSuccess(), 'yes');
 		$this->assertEquals($response->getResultCode(), 201);
 		$this->assertEquals($response->getResultId(), $request->getUserName());
+	}
+
+	public function testRegistrationWithInvalidName()
+	{
+		$request = new Request('ba', 'jelszo', 'jelszo');
+
+		$validator =
+			$this->getMockBuilder('Kata\Registration\Validator')
+				->disableOriginalConstructor()
+				->getMock();
+		$validator
+			->expects($this->once())
+			->method('isValidUserName')
+			->will($this->throwException(new InvalidUserNameException()));
+
+		$userBuilder = $this->getMock('Kata\Registration\UserBuilder');
+		$userDao     = $this->getMock('Kata\Registration\UserDao2');
+
+		$controller = new RegistrationController($validator, $userBuilder, $userDao);
+
+		$response = $controller->doRegistration($request);
+
+		$this->assertEquals($response->getSuccess(), 'no');
+		$this->assertEquals($response->getResultCode(), 601);
+		$this->assertEquals($response->getResultId(), '');
 	}
 }

@@ -4,6 +4,8 @@
  */
 namespace Kata\Registration;
 
+use SebastianBergmann\Exporter\Exception;
+
 class RegistrationController
 {
 	/** @var Validator */
@@ -40,7 +42,19 @@ class RegistrationController
 
 			return new Response('yes', '201', $uid);
 		}
-		catch(\Exception $exception)
+		catch(InvalidUserNameException $exception)
+		{
+			return new Response('no', '601', '');
+		}
+		catch(InvalidPasswordException $exception)
+		{
+			return new Response('no', '602', '');
+		}
+		catch(UserExistsException $exception)
+		{
+			return new Response('no', '701', '');
+		}
+		catch(Exception $exception)
 		{
 			return new Response('no', '500', '');
 		}

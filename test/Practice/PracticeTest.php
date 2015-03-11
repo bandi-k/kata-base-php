@@ -23,6 +23,16 @@ class PracticeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage wrong value -1
+	 */
+	public function testException()
+	{
+		$practice = new Practice();
+		$practice->add('-1');
+	}
+
+	/**
 	 * Values data provider.
 	 *
 	 * @return array

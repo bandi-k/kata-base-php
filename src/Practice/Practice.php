@@ -12,6 +12,7 @@ class Practice
 	 * @param string $values   The number's string.
 	 *
 	 * @return int   The sum of the given values.
+	 * @throws \Exception   In case of negative numbers.
 	 */
 	public function add($values)
 	{
@@ -20,7 +21,14 @@ class Practice
 
 		foreach ($values as $value)
 		{
-			$sum += (int)$value;
+			$value = (int)$value;
+
+			if ($value < 0)
+			{
+				throw New \Exception('wrong value ' . $value);
+			}
+
+			$sum += $value;
 		}
 
 		return $sum;

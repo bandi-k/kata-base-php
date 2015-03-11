@@ -15,7 +15,14 @@ class Practice
 	 */
 	public function add($values)
 	{
+		$sum    = 0;
+		$values = preg_split('#[,\n]#', $values);
 
-		return 0;
+		foreach ($values as $value)
+		{
+			$sum += (int)$value;
+		}
+
+		return $sum;
 	}
 }

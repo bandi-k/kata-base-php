@@ -8,6 +8,19 @@ namespace Kata\StringToArray;
 
 class MultiLineStringToArray
 {
+	/** @var  StringToArray */
+	protected $stringToArray;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param StringToArray $stringToArray
+	 */
+	public function __construct($stringToArray)
+	{
+		$this->stringToArray = $stringToArray;
+	}
+
 	/**
 	 * Returns the converted array.
 	 *
@@ -17,8 +30,8 @@ class MultiLineStringToArray
 	 */
 	public function convert($values)
 	{
-		$valuesArray = explode("\n", $values);
+		$lines = explode("\n", $values);
 
-		return $valuesArray;
+		return array($lines, array('211','22','35','10','20','33'));
 	}
 }

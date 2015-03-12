@@ -15,6 +15,8 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 	public function testStringToArray()
 	{
 		$stringToArray = new StringToArray();
-		$this->assertTrue(true);
+		$result        = $stringToArray->convert('a,b,c');
+
+		$this->assertEquals(array('a', 'b', 'c'), $result);
 	}
 }

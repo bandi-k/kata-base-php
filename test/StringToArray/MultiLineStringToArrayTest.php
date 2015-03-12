@@ -22,12 +22,12 @@ class MultiLineStringToArrayTest extends \PHPUnit_Framework_TestCase
 			->expects($this->at(0))
 			->method('convert')
 			->with("211,22,35")
-			->will($this->returnValue(array('211','22','35')));
+			->willReturn(array('211','22','35'));
 		$stringToArray
 			->expects($this->at(1))
 			->method('convert')
 			->with("10,20,33")
-			->will($this->returnValue(array('10,20,33')));
+			->willReturn(array('10','20','33'));
 
 		$multiLineStringToArray = new MultiLineStringToArray($stringToArray);
 		$result                 = $multiLineStringToArray->convert("211,22,35\n10,20,33");

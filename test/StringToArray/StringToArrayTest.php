@@ -11,13 +11,18 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test for string to array.
+	 *
+	 * @param string $values          The values string.
+	 * @param array  $expectedArray   The expected array.
+	 *
+	 * @dataProvider inputValuesProvider
 	 */
-	public function testStringToArray()
+	public function testStringToArray($values, array $expectedArray)
 	{
 		$stringToArray = new StringToArray();
-		$result        = $stringToArray->convert('a,b,c');
+		$result        = $stringToArray->convert($values);
 
-		$this->assertEquals(array('a', 'b', 'c'), $result);
+		$this->assertEquals($expectedArray, $result);
 	}
 
 	/**
@@ -32,6 +37,20 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 	{
 		$stringToArray = new StringToArray();
 		$stringToArray->convert($value);
+	}
+
+	/**
+	 * Input values provider.
+	 *
+	 * @return array
+	 */
+	public function inputValuesProvider()
+	{
+		return array(
+			['a,b,c', array('a', 'b', 'c')],
+			["100,982,444,990,1", array('100', '982', '444', '990', '1')],
+			["Mark,Anthony,marka@lib.de", array('Mark', 'Anthony', 'marka@lib.de')],
+		);
 	}
 
 	/**

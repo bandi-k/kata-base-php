@@ -22,6 +22,8 @@ class StringToArray
 			throw New InvalidInputTypeException('Wrong input type');
 		}
 
-		return array('a', 'b', 'c');
+		$array = explode(',', $values);
+
+		return $array;
 	}
 }

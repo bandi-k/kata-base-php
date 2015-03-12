@@ -23,10 +23,10 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Test case of wrong input types.
 	 *
-	 * @param $value
+	 * @param mixed $value   The input value.
 	 *
 	 * @dataProvider differentTypeProvider
-	 * @expectedException \Exception
+	 * @expectedException \Kata\StringToArray\InvalidInputTypeException
 	 */
 	public function testWrongInputTypes($value)
 	{

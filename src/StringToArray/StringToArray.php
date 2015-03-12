@@ -4,8 +4,6 @@
  */
 namespace Kata\StringToArray;
 
-use SebastianBergmann\Exporter\Exception;
-
 class StringToArray
 {
 	/**
@@ -15,13 +13,13 @@ class StringToArray
 	 *
 	 * @return array   The array of values.
 	 *
-	 * @throws \Exception   In case of wrong input type.
+	 * @throws InvalidInputTypeException   In case of invalid input type.
 	 */
 	public function convert($values)
 	{
 		if (!is_string($values))
 		{
-			throw New \Exception('Wrong input type');
+			throw New InvalidInputTypeException('Wrong input type');
 		}
 
 		return array('a', 'b', 'c');

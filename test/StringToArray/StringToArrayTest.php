@@ -19,4 +19,13 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals(array('a', 'b', 'c'), $result);
 	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testIntegerInputType()
+	{
+		$stringToArray = new StringToArray();
+		$stringToArray->convert(1);
+	}
 }

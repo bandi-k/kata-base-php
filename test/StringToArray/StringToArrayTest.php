@@ -21,20 +21,31 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test case of wrong input types.
+	 *
+	 * @param $value
+	 *
+	 * @dataProvider differentTypeProvider
 	 * @expectedException \Exception
 	 */
-	public function testIntegerInputType()
+	public function testWrongInputTypes($value)
 	{
 		$stringToArray = new StringToArray();
-		$stringToArray->convert(1);
+		$stringToArray->convert($value);
 	}
 
 	/**
-	 * @expectedException \Exception
+	 * Different type provider.
+	 *
+	 * @return array
 	 */
-	public function testArrayInputType()
+	public function differentTypeProvider()
 	{
-		$stringToArray = new StringToArray();
-		$stringToArray->convert(array(123));
+		return array(
+			[1],
+			[array()],
+			[new \Exception()],
+			[null],
+		);
 	}
 }

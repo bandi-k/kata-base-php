@@ -16,7 +16,8 @@ class MultiLineStringToArrayTest extends \PHPUnit_Framework_TestCase
 	public function testMultiLineStringToArray()
 	{
 		$multiLineStringToArray = new MultiLineStringToArray();
+		$result                 = $multiLineStringToArray->convert("211,22,35\n10,20,33");
 
-		$this->assertTrue(true);
+		$this->assertEquals(array('211,22,35', '10,20,33'), $result);
 	}
 }

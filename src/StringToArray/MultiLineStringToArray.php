@@ -24,14 +24,14 @@ class MultiLineStringToArray
 	/**
 	 * Returns the converted array.
 	 *
-	 * @param string $values   The string of values.
+	 * @param string $multiLineValues   The string of values.
 	 *
 	 * @return array   The array of values.
 	 */
-	public function convert($values)
+	public function convert($multiLineValues)
 	{
 		$values = array();
-		$lines  = explode("\n", $values);
+		$lines  = explode("\n", $multiLineValues);
 
 		foreach ($lines as $line)
 		{

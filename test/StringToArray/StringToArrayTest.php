@@ -28,4 +28,13 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 		$stringToArray = new StringToArray();
 		$stringToArray->convert(1);
 	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testArrayInputType()
+	{
+		$stringToArray = new StringToArray();
+		$stringToArray->convert(array(123));
+	}
 }

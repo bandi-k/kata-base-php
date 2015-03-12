@@ -1,2 +1,1 @@
-2 create mock
-2 create provider
+2 create stub

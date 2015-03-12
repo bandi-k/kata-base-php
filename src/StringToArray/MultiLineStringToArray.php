@@ -35,9 +35,9 @@ class MultiLineStringToArray
 
 		foreach ($lines as $line)
 		{
-			$values[] = $this->stringToArray->convert($line);
+			$values = array_merge($values, $this->stringToArray->convert($line));
 		}
 
-		return array($lines, array('211','22','35','10','20','33'));
+		return array($lines, $values);
 	}
 }

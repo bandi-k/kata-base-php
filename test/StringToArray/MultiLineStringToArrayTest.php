@@ -16,13 +16,13 @@ class MultiLineStringToArrayTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMultiLineStringToArray()
 	{
-		$stringToArray = $this->getMockBuilder('Kata\StringToArray\StringToArray')->getMock();
+		/*$stringToArray = $this->getMockBuilder('Kata\StringToArray\StringToArray')->getMock();
 
 		$stringToArray
 			->expects($this->exactly(2))
-			->method('convert');
+			->method('convert');*/
 
-		$multiLineStringToArray = new MultiLineStringToArray($stringToArray);
+		$multiLineStringToArray = new MultiLineStringToArray(new StringToArray());
 		$result                 = $multiLineStringToArray->convert("211,22,35\n10,20,33");
 
 		$this->assertEquals(array(array('211,22,35', '10,20,33'), array('211','22','35','10','20','33')), $result);

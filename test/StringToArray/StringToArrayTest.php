@@ -48,8 +48,11 @@ class StringToArrayTest extends \PHPUnit_Framework_TestCase
 	{
 		return array(
 			['a,b,c', array('a', 'b', 'c')],
-			["100,982,444,990,1", array('100', '982', '444', '990', '1')],
-			["Mark,Anthony,marka@lib.de", array('Mark', 'Anthony', 'marka@lib.de')],
+			['100,982,444,990,1', array('100', '982', '444', '990', '1')],
+			['Mark,Anthony,marka@lib.de', array('Mark', 'Anthony', 'marka@lib.de')],
+			['100,111,aaa,AAA', array('100', '111', 'aaa', 'AAA')],
+			['', array('')],
+			[',a', array('', 'a')],
 		);
 	}
 

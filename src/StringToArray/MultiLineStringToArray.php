@@ -30,7 +30,13 @@ class MultiLineStringToArray
 	 */
 	public function convert($values)
 	{
-		$lines = explode("\n", $values);
+		$values = array();
+		$lines  = explode("\n", $values);
+
+		foreach ($lines as $line)
+		{
+			$values[] = $this->stringToArray->convert($line);
+		}
 
 		return array($lines, array('211','22','35','10','20','33'));
 	}

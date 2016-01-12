@@ -42,11 +42,14 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param array $haystack
+	 *
+	 * @dataProvider invalidHaystackProvider
 	 * @expectedException \Kata\ArrayChop\InvalidHaystackException
 	 */
-	public function testInvalidHaystack()
+	public function testInvalidHaystack(array $haystack)
 	{
-		$this->arrayChop->start(0, ['33']);
+		$this->arrayChop->start(0, $haystack);
 	}
 
 	/**
@@ -91,5 +94,19 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 			[22.22],
 			[[22]],
 		);
+	}
+
+	/**
+	 * Invalid haystack provider.
+	 *
+	 * @return array
+	 */
+	public function invalidHaystackProvider()
+	{
+		return [
+			[['22']],
+			[[22.22]],
+			[[22, 22, 22.22]],
+		];
 	}
 }

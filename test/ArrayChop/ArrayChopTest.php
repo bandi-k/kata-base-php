@@ -25,7 +25,7 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider chopperProvider
 	 */
-	public function ftestArrayChop($result, $needle, array $haystack)
+	public function testArrayChop($result, $needle, array $haystack)
 	{
 		$this->assertEquals($result, $this->arrayChop->start($needle, $haystack));
 	}

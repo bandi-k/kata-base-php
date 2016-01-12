@@ -14,6 +14,6 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 	{
 		$arrayChop = new ArrayChop();
 
-		$this->assertTrue(true);
+		$this->assertEquals(0, $arrayChop->start(0, [0]));
 	}
 }

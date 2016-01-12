@@ -19,6 +19,7 @@ class ArrayChop
 	public function start($needle, array $haystack)
 	{
 		$this->ensureNeedleIsValid($needle);
+		$this->ensureHaystackIsValid($haystack);
 
 		foreach($haystack as $key => $item)
 		{
@@ -31,12 +32,40 @@ class ArrayChop
 		return -1;
 	}
 
+	/**
+	 * Ensures needle is valid.
+	 *
+	 * @param int $needle   The needle.
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidNeedleException
+	 */
 	protected function ensureNeedleIsValid($needle)
 	{
-		//echo is_int($needle) . PHP_EOL;
 		if (!is_int($needle))
 		{
 			throw new InvalidNeedleException();
+		}
+	}
+
+	/**
+	 * Ensures haystack is valid.
+	 *
+	 * @param array $haystack   The haystack.
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidHaystackException
+	 */
+	protected function ensureHaystackIsValid(array $haystack)
+	{
+		foreach($haystack as $item)
+		{
+			if (!is_int($item))
+			{
+				throw new InvalidHaystackException();
+			}
 		}
 	}
 }

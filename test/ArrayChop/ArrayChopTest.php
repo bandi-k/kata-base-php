@@ -36,9 +36,17 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 	 * @dataProvider invalidNeedleProvider
 	 * @expectedException \Kata\ArrayChop\InvalidNeedleException
 	 */
-	public function testArrayChopInvalidNeedle($needle)
+	public function testInvalidNeedle($needle)
 	{
 		$this->arrayChop->start($needle, []);
+	}
+
+	/**
+	 * @expectedException \Kata\ArrayChop\InvalidHaystackException
+	 */
+	public function testInvalidHaystack()
+	{
+		$this->arrayChop->start(0, ['33']);
 	}
 
 	/**

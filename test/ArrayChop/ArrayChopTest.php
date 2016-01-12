@@ -10,6 +10,14 @@ use Kata\ArrayChop\ArrayChop;
 
 class ArrayChopTest extends \PHPUnit_Framework_TestCase
 {
+	/** @var ArrayChop   The array chop. */
+	protected $arrayChop;
+
+	public function setUp()
+	{
+		$this->arrayChop = new ArrayChop();
+	}
+
 	/**
 	 * @param int   $result
 	 * @param int   $needle
@@ -17,11 +25,20 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider chopperProvider
 	 */
-	public function testArrayChop($result, $needle, array $haystack)
+	public function ftestArrayChop($result, $needle, array $haystack)
 	{
-		$arrayChop = new ArrayChop();
+		$this->assertEquals($result, $this->arrayChop->start($needle, $haystack));
+	}
 
-		$this->assertEquals($result, $arrayChop->start($needle, $haystack));
+	/**
+	 * @param $needle
+	 *
+	 * @dataProvider invalidNeedleProvider
+	 * @expectedException \Kata\ArrayChop\InvalidNeedleException
+	 */
+	public function testArrayChopInvalidNeedle($needle)
+	{
+		$this->arrayChop->start($needle, []);
 	}
 
 	/**
@@ -51,6 +68,20 @@ class ArrayChopTest extends \PHPUnit_Framework_TestCase
 			[-1, 4, [1, 3, 5, 7]],
 			[-1, 6, [1, 3, 5, 7]],
 			[-1, 8, [1, 3, 5, 7]],
+		);
+	}
+
+	/**
+	 * Invalid needle provider.
+	 *
+	 * @return array
+	 */
+	public function invalidNeedleProvider()
+	{
+		return array(
+			['22'],
+			[22.22],
+			[[22]],
 		);
 	}
 }

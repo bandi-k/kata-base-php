@@ -51,6 +51,7 @@ class ArabicRomanNumberConverterTest extends \PHPUnit_Framework_TestCase
 			[101, 'CI'],
 			[499, 'CDXCIX'],
 			[944, 'CMXLIV'],
+			[1001, 'MI'],
 			[1111, 'MCXI'],
 		];
 	}

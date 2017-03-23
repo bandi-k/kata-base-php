@@ -18,6 +18,9 @@ class ArabicRomanNumberConverterTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @param int    $arabicNumber
+	 * @param string $romanNumber
+	 *
 	 * @dataProvider numberProvider
 	 */
 	public function testConvert($arabicNumber, $romanNumber)

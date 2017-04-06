@@ -22,16 +22,20 @@ class PrimeFinder
 	 */
 	public function findTheBiggestInsideTheNumber($number)
 	{
-		$shiftCounter = 1;
-		$prime        = 0;
+		$prime = 0;
 
 		for ($numberLength = strlen($number); $numberLength >= 1; --$numberLength)
 		{
 			$subNumberStart = 0;
 
-			for ($i = 1; $i <= $shiftCounter; ++$i)
+			while(1)
 			{
 				$subNumber = substr($number, $subNumberStart, $numberLength);
+
+				if (strlen($subNumber) < $numberLength)
+				{
+					break;
+				}
 
 				if ($this->checker->isPrime($subNumber))
 				{
@@ -48,8 +52,6 @@ class PrimeFinder
 			{
 				return $prime;
 			}
-
-			++$shiftCounter;
 		}
 
 		return 0;

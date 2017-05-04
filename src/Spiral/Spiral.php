@@ -41,16 +41,16 @@ class Spiral
 	 */
 	private function createField($fieldLength)
 	{
-		$filedRow = [];
+		$fieldRow = [];
 
 		for ($y = 0; $y < $fieldLength; ++$y)
 		{
-			$filedRow[] = false;
+			$fieldRow[] = false;
 		}
 
 		for ($x = 0; $x < $fieldLength; ++$x)
 		{
-			$this->field[] = $filedRow;
+			$this->field[] = $fieldRow;
 		}
 	}
 

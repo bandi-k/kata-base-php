@@ -215,7 +215,7 @@ class Spiral
 	}
 
 	/**
-	 * Draws the Spiral2.
+	 * Draws the Spiral.
 	 */
 	public function draw()
 	{

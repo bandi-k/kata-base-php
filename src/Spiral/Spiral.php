@@ -55,7 +55,8 @@ class Spiral
 	}
 
 	/**
-	 * Recursive method, goes round until we could step on the field.
+	 * Recursive method, goes round until it could step on the field.
+	 * At the end it draws the spiral.
 	 */
 	public function goRound()
 	{
@@ -63,6 +64,7 @@ class Spiral
 
 		if (!$this->couldStep)
 		{
+			$this->draw();
 			return;
 		}
 
@@ -70,6 +72,7 @@ class Spiral
 
 		if (!$this->couldStep)
 		{
+			$this->draw();
 			return;
 		}
 
@@ -77,6 +80,7 @@ class Spiral
 
 		if (!$this->couldStep)
 		{
+			$this->draw();
 			return;
 		}
 
@@ -84,6 +88,7 @@ class Spiral
 
 		if (!$this->couldStep)
 		{
+			$this->draw();
 			return;
 		}
 
@@ -217,7 +222,7 @@ class Spiral
 	/**
 	 * Draws the Spiral.
 	 */
-	public function draw()
+	private function draw()
 	{
 		foreach ($this->field as $row)
 		{
@@ -235,18 +240,15 @@ class Spiral
 
 $spiral = new Spiral(5);
 $spiral->goRound();
-$spiral->draw();
 
 $spiral = new Spiral(10);
 $spiral->goRound();
-$spiral->draw();
 
 $spiral = new Spiral(50);
 $spiral->goRound();
-$spiral->draw();
 
 $spiral = new Spiral(100);
 $spiral->goRound();
-$spiral->draw();
+
 
 

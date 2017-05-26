@@ -7,5 +7,9 @@
 			"Kata\\Test\\": "test/",
 			"Kata\\": "src/"
 		}
+	},
+	"require": {
+		"cboden/ratchet": "^0.3.6"
 	}
 }
+

@@ -12,7 +12,7 @@
 		$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
 	}
 
-	var conn = new WebSocket('ws://localhost:8080');
+	var conn = new WebSocket('ws://chat.bandi.webedit.hu:8080');
 	conn.onopen = function(e) {
 		console.log("Connection established!");
 	};
@@ -40,6 +40,11 @@
 		$('#user').val('');
 	});
 
+	$("#user").keyup(function(event){
+		if(event.keyCode == 13){
+			$("#join-chat").click();
+		}
+	});
 
 	$('#send-msg').click(function(){
 		var text = $('#msg').val();
@@ -54,6 +59,11 @@
 		$('#msg').val('');
 	});
 
+	$("#msg").keyup(function(event){
+		if(event.keyCode == 13){
+			$("#send-msg").click();
+		}
+	});
 
 	$('#leave-room').click(function(){
 

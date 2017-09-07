@@ -36,6 +36,18 @@ class SudokuValidator
 	}
 
 	/**
+	 * @param array $fields
+	 *
+	 * @return bool
+	 */
+	private function validateNineField(array $fields)
+	{
+		$validFields = [1,2,3,4,5,6,7,8,9];
+
+		return empty(array_diff($validFields, $fields));
+	}
+
+	/**
 	 * @param array $solution
 	 *
 	 * @return bool
@@ -45,6 +57,28 @@ class SudokuValidator
 		$solution = $this->rotate90Degrees($solution);
 
 		return $this->validateHorizontalLines($solution);
+	}
+
+	/**
+	 * @param array $solution
+	 *
+	 * @return array
+	 */
+	private function rotate90Degrees(array $solution)
+	{
+		$result = [];
+
+		while(count($solution)>0)
+		{
+			$result[count($solution[0])-1][] = array_shift($solution[0]);
+
+			if (count($solution[0]) == 0)
+			{
+				array_shift($solution);
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -76,39 +110,5 @@ class SudokuValidator
 		}
 
 		return true;
-	}
-
-	/**
-	 * @param array $solution
-	 *
-	 * @return array
-	 */
-	private function rotate90Degrees(array $solution)
-	{
-		$result = [];
-
-		while(count($solution)>0)
-		{
-			$result[count($solution[0])-1][] = array_shift($solution[0]);
-
-			if (count($solution[0]) == 0)
-			{
-				array_shift($solution);
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param array $fields
-	 *
-	 * @return bool
-	 */
-	private function validateNineField(array $fields)
-	{
-		$validFields = [1,2,3,4,5,6,7,8,9];
-
-		return empty(array_diff($validFields, $fields));
 	}
 }

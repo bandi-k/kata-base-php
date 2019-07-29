@@ -9,7 +9,7 @@
 		}
 	},
 	"require": {
-		"cboden/ratchet": "^0.3.6"
+		"cboden/ratchet": "^0.3.6",
+		"php-amqplib/php-amqplib": "> v2.8.2-rc3"
 	}
 }
-

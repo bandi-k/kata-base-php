@@ -5,21 +5,23 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
-$channel    = $connection->channel();
+$channel = $connection->channel();
 
-$channel->exchange_declare('direct_logs', 'direct', false, false, false);
+$channel->exchange_declare('topic_logs', 'topic', false, false, false);
 
 list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
 
-$severities = array_slice($argv, 1);
-if (empty($severities)) {
-	file_put_contents('php://stderr', "Usage: $argv[0] [notice] [warning] [error]\n");
+$binding_keys = array_slice($argv, 1);
+
+if (empty($binding_keys))
+{
+	file_put_contents('php://stderr', "Usage: $argv[0] [binding_key]\n");
 	exit(1);
 }
 
-foreach ($severities as $severity)
+foreach ($binding_keys as $binding_key)
 {
-	$channel->queue_bind($queue_name, 'direct_logs', $severity);
+	$channel->queue_bind($queue_name, 'topic_logs', $binding_key);
 }
 
 echo " [*] Waiting for logs. To exit press CTRL+C\n";
@@ -31,8 +33,7 @@ $callback = function ($message)
 
 $channel->basic_consume($queue_name, '', false, true, false, false, $callback);
 
-while ($channel->is_consuming())
-{
+while ($channel->is_consuming()) {
 	$channel->wait();
 }
 

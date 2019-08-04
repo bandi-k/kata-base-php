@@ -9,7 +9,7 @@ $channel = $connection->channel();
 
 $channel->exchange_declare('topic_logs', 'topic', false, false, false);
 
-list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
+list($queue_name) = $channel->queue_declare("", false, false, true, false);
 
 $binding_keys = array_slice($argv, 1);
 

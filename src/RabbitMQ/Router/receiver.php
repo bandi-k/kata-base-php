@@ -9,7 +9,7 @@ $channel    = $connection->channel();
 
 $channel->exchange_declare('direct_logs', 'direct', false, false, false);
 
-list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
+list($queue_name) = $channel->queue_declare("", false, false, true, false);
 
 $severities = array_slice($argv, 1);
 if (empty($severities)) {

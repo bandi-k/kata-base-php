@@ -9,7 +9,7 @@ $channel    = $connection->channel();
 
 $channel->exchange_declare('logs', 'fanout', false, false, false);
 
-list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
+list($queue_name) = $channel->queue_declare("", false, false, true, false);
 
 $channel->queue_bind($queue_name, 'logs');
 

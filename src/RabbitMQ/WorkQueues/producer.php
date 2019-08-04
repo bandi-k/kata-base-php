@@ -8,7 +8,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
 $channel    = $connection->channel();
 
-//Declaring a queue is idempotent - it will only be created if it doesn't exist already.
 $channel->queue_declare('task_queue', false, true, false, false);
 
 $text = !empty($argv[1]) ? implode(' ', array_slice($argv, 1)) : 'Hello World!';

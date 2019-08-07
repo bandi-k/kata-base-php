@@ -9,30 +9,19 @@ class FibonacciRpcClient
 {
 	private $connection;
 	private $channel;
-	private $callback_queue;
+	private $callbackQueue;
 	private $response;
-	private $corr_id;
+	private $correlationId;
 
 	public function __construct()
 	{
-		$this->connection = new AMQPStreamConnection(
-			'localhost',
-			5672,
-			'guest',
-			'guest'
-		);
-		$this->channel = $this->connection->channel();
+		$this->connection = new AMQPStreamConnection('localhost', 5672, 'bandi', 'pwd123');
+		$this->channel    = $this->connection->channel();
 
-		list($this->callback_queue) = $this->channel->queue_declare(
-			"",
-			false,
-			false,
-			true,
-			false
-		);
+		list($this->callbackQueue) = $this->channel->queue_declare("", false, false, true, false);
 
 		$this->channel->basic_consume(
-			$this->callback_queue,
+			$this->callbackQueue,
 			'',
 			false,
 			true,
@@ -47,7 +36,7 @@ class FibonacciRpcClient
 
 	public function onResponse(AMQPMessage $response)
 	{
-		if ($response->get('correlation_id') == $this->corr_id)
+		if ($response->get('correlation_id') == $this->correlationId)
 		{
 			$this->response = $response->body;
 		}
@@ -55,17 +44,19 @@ class FibonacciRpcClient
 
 	public function call($number)
 	{
-		$this->response = null;
-		$this->corr_id = uniqid();
+		$this->response       = null;
+		$this->correlationId  = uniqid();
 
 		$message = new AMQPMessage(
 			(string) $number,
 			array(
-				'correlation_id' => $this->corr_id,
-				'reply_to'       => $this->callback_queue
+				'correlation_id' => $this->correlationId,
+				'reply_to'       => $this->callbackQueue
 			)
 		);
+
 		$this->channel->basic_publish($message, '', 'rpc_queue');
+
 		while (!$this->response)
 		{
 			$this->channel->wait();
@@ -75,7 +66,7 @@ class FibonacciRpcClient
 	}
 }
 
-$fibonacci_rpc = new FibonacciRpcClient();
-$response      = $fibonacci_rpc->call(30);
+$client   = new FibonacciRpcClient();
+$response = $client->call(30);
 
 echo ' [.] Got ', $response, "\n";

@@ -4,24 +4,24 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-$connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
-$channel = $connection->channel();
+$connection = new AMQPStreamConnection('localhost', 5672, 'bandi', 'pwd123');
+$channel    = $connection->channel();
 
 $channel->exchange_declare('topic_logs', 'topic', false, false, false);
 
-list($queue_name) = $channel->queue_declare("", false, false, true, false);
+list($queueName) = $channel->queue_declare("", false, false, true, false);
 
-$binding_keys = array_slice($argv, 1);
+$bindingKeys = array_slice($argv, 1);
 
-if (empty($binding_keys))
+if (empty($bindingKeys))
 {
 	file_put_contents('php://stderr', "Usage: $argv[0] [binding_key]\n");
 	exit(1);
 }
 
-foreach ($binding_keys as $binding_key)
+foreach ($bindingKeys as $bindingKey)
 {
-	$channel->queue_bind($queue_name, 'topic_logs', $binding_key);
+	$channel->queue_bind($queueName, 'topic_logs', $bindingKey);
 }
 
 echo " [*] Waiting for logs. To exit press CTRL+C\n";
@@ -31,9 +31,10 @@ $callback = function ($message)
 	echo ' [x] ', $message->delivery_info['routing_key'], ':', $message->body, "\n";
 };
 
-$channel->basic_consume($queue_name, '', false, true, false, false, $callback);
+$channel->basic_consume($queueName, '', false, true, false, false, $callback);
 
-while ($channel->is_consuming()) {
+while ($channel->is_consuming())
+{
 	$channel->wait();
 }
 

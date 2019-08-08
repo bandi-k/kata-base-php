@@ -31,7 +31,7 @@ $callback = function (AMQPMessage $request)
 	echo ' [.] fib(', $number, ")\n";
 
 	$message = new AMQPMessage(
-		(string) fib($number),
+		fib($number),
 		array('correlation_id' => $request->get('correlation_id'))
 	);
 

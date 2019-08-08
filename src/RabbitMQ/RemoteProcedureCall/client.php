@@ -48,7 +48,7 @@ class FibonacciRpcClient
 		$this->correlationId  = uniqid();
 
 		$message = new AMQPMessage(
-			(string) $number,
+			$number,
 			array(
 				'correlation_id' => $this->correlationId,
 				'reply_to'       => $this->callbackQueue
